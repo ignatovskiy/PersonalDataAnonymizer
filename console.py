@@ -1,212 +1,64 @@
-from symbols import *
+import argparse
+
+import dataset_converter
+import dataset_creator
+
 from utils import *
 
 
-def show_test():
-	os.system('clear')
-	print(test_symbol)
-
-def show_train():
-	os.system('clear')
-	print(train_symbol)
-
-
-def handling_test_results_menu():
-	selected_section = input("[ ]: ")
-
-	if not check_selection(selected_section, ("9", "0")):
-		handling_test_results_menu()
-	elif selected_section == "0":
-		return
-	elif selected_section == "9":
-		main()
-
-
-def handling_train_results_menu():
-	selected_section = input("[ ]: ")
-
-	if not check_selection(selected_section, ("1", "2", "9", "0")):
-		handling_train_results_menu()
-	elif selected_section == "0":
-		return
-	elif selected_section == "1":
-		show_test()
-		handling_test_auto()
-	elif selected_section == "2":
-		show_test()
-		handling_test_manual()
-	elif selected_section == "9":
-		main()
-
-
-def handling_main_menu():
-	selected_section = input("[ ]: ")
-
-	if not check_selection(selected_section, ("1", "2", "0")):
-		handling_main_menu()
-	elif selected_section == "0":
-		return
-	elif selected_section == "1":
-		show_train_menu()
-		handling_train_menu()
-	elif selected_section == "2":
-		show_test_menu()
-		handling_test_menu()
-
-
-def handling_train_menu():
-	selected_section = input("[ ]: ")
-
-	if not check_selection(selected_section, ("1", "2", "9", "0")):
-		handling_train_menu()
-	elif selected_section == "0":
-		return
-	elif selected_section == "1":
-		show_train()
-		handling_train_start()
-	elif selected_section == "2":
-		show_train()
-		handling_train_continue()
-	elif selected_section == "9":
-		main()
-
-def handling_test_menu():
-	selected_section = input("[ ]: ")
-
-	if not check_selection(selected_section, ("1", "2", "9", "0")):
-		handling_test_menu()
-	elif selected_section == "0":
-		return
-	elif selected_section == "1":
-		show_test()
-		handling_test_auto()
-	elif selected_section == "2":
-		show_test()
-		handling_test_manual()
-	elif selected_section == "9":
-		main()
-
-
-def handling_train_start():
-	model = create_model()
-
-	log("ask", "Enter train dataset filename:")
-	dataset_filename = input("[ ]: ")
-
-	log("ask", "Enter directory for saving model:")
-	model_folder = input("[ ]: ")
-	print()
-
-	log("info", f"Loading test dataset... ({dataset_filename})")
-	train_data = load_train_dataset(dataset_filename)
-
-	log("info", "Adding custom labels...")
-	ner = get_ner(model)
-	ner = add_training_labels(ner, train_data)
-
-	model_pips = disable_pips(model)
-
-	log("info", "Training model...")
-	trained_model = train_model(model, model_pips, train_data, "new")
-
-	log("info", f"Saving model as {model_folder} directory...")
-	save_model(trained_model, model_folder)
-	log("info", "Model saved!")
-
-	print(train_result_menu)
-	handling_train_results_menu()
-
-
-def handling_train_continue():
-	log("ask", "Enter model directory name:")
-	model_dir = input("[ ]: ")
-	model = load_model(model_dir)
-
-	log("ask", "Enter train dataset filename:")
-	dataset_filename = input("[ ]: ")
-
-	log("ask", "Enter directory for saving model:")
-	model_folder = input("[ ]: ")
-	print()
-
-	log("info", f"Loading test dataset... ({dataset_filename})")
-	train_data = load_train_dataset(dataset_filename)
-
-	log("info", "Adding custom labels...")
-	ner = get_ner(model)
-	ner = add_training_labels(ner, train_data)
-
-	model_pips = disable_pips(model)
-
-	log("info", "Training model...")
-	trained_model = train_model(model, model_pips, train_data, "continue")
-
-	log("info", f"Saving model as {model_folder} directory")
-	save_model(trained_model, model_folder)
-	log("info", "Model saved!")
-
-	print(train_result_menu)
-	handling_train_results_menu()
-
-
-def handling_test_auto():
-	log("ask", "Enter model directory name:")
-	model_dir = input("[ ]: ")
-	model = load_model(model_dir)
-
-	log("ask", "Enter test dataset filename:")
-	dataset_filename = input("[ ]: ")
-	test_data = load_train_dataset(dataset_filename)
-
-	log("ask", "Choose logs mode ('false' - only false recognitions, 'all' - all logs):")
-	logs_mode = input("[ ]: ")
-
-	print()
-	accuracy_checker(test_data, model, logs_mode)
-	print()
-
-	print(test_result_menu)
-	handling_test_results_menu()
-
-
-def handling_test_manual():
-	log("ask", "Enter model directory name:")
-	model_dir = input("[ ]: ")
-	model = load_model(model_dir)
-
-	print()
-	print(test_rtc)
-
-	while True:
-		inputed_string = input("[ ]: ")
-		
-		if inputed_string == "0":
-			break	
-		elif inputed_string == "9":
-			main()
-		else:
-			predict_sample(model, inputed_string)
-
-
-def show_main_menu():
-	os.system('clear')
-	print(start_symbol)
-	print(main_menu)
-
-
-def show_train_menu():
-	show_train()
-	print(train_menu)
-
-
-def show_test_menu():
-	show_test()
-	print(test_menu)
-
-
 def main():
-	show_main_menu()
-	handling_main_menu()
+	parser = argparse.ArgumentParser()
+
+	parser.add_argument('--action', type=str)
+	parser.add_argument('--model', type=str)
+	parser.add_argument('--data', type=str)
+	parser.add_argument('--logs', type=str)
+	parser.add_argument('--output', type=str)
+	parser.add_argument('--value', type=int)
+
+	args = parser.parse_args()
+
+	if args.action:
+		action = args.action
+
+		if action == "train":
+			if args.data and args.output:
+				train_pipeline(args.data, args.output)
+			else:
+				log("error", "Error. Set --data and --output parameters.")
+		elif action == "post_train":
+			if args.model and args.data and args.output:
+				continue_train_pipeline(args.model, args.data, args.output)
+			else:
+				log("error", "Error. Set --data, --model and --output parameters.")
+		elif action == "test_auto":
+			if args.model and args.data and args.logs:
+				test_auto_pipeline(args.model, args.data, args.logs)
+			else:
+				log("error", "Error. Set --data, --model and --logs parameters.")
+		elif action == "test_manual":
+			if args.model and args.data:
+				model = load_model(args.model)
+				predict_sample(model, args.data)
+			else:
+				log("error", "Error. Set --data and --model parameters.")
+		elif action == "convert":
+			if args.data:
+				dataset_converter.main(args.data)
+			else:
+				log("error", "Error. Set --data parameter.")
+		elif action == "create":
+			if args.data and args.output and args.value:
+				dataset_creator.create(args.value, args.output, args.data)
+			else:
+				log("error", "Error. Set --data, --value and --output parameters.")
+		elif action == "predict_file":
+			if args.data and args.model:
+				file_handling(args.model, args.data)
+			else:
+				log("error", "Error. Set --model and --data parameters.")
+	else:
+		menu_pipeline()
 
 
 if __name__ == "__main__":

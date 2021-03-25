@@ -96,8 +96,8 @@ def handling_data(pre_dataset):
     return converted_dataset
 
 
-def main():
-    pre_dataset = load_raw_data("Dataset_Raw.json")
+def main(dataset_filename):
+    pre_dataset = load_raw_data(dataset_filename)
     converted_dataset = handling_data(pre_dataset)
 
     print(len(converted_dataset))
@@ -106,4 +106,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main("Dataset_Raw.json")

@@ -13,19 +13,25 @@ def save_dataset(filename, dataset):
         json.dump({"dataset": dataset}, f)
 
 
-def main():
-    os.system("clear")
-    print("Enter records amount for creating dataset:")
-    records_amount = int(input())
+def create(records_amount, output, dataset_filename="converted.json"):
     print("Loading full dataset...")
-    dataset = load_full_dataset("converted.json")["dataset"]
+    dataset = load_full_dataset(dataset_filename)["dataset"]
     print("Handling full dataset...")
     random.shuffle(dataset)
     new_dataset = dataset[:records_amount]
-    print("Enter filename for new dataset:")
-    dataset_name = input()
-    save_dataset(dataset_name, new_dataset)
+    save_dataset(output, new_dataset)
     print("Done!")
+
+
+def main():
+    os.system("clear")
+    print("Enter filename of base dataset:")
+    dataset_name = input()
+    print("Enter records amount for creating dataset:")
+    records_amount = int(input())
+    print("Enter filename for new dataset:")
+    output = input()
+    create(records_amount, output, dataset_name)
 
 
 if __name__ == "__main__":
