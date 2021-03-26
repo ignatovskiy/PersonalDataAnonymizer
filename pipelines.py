@@ -8,6 +8,7 @@ from spacy.training import Example
 from spacy.util import minibatch, compounding
 
 from parsers import *
+from generators import generate_random
 
 
 def log(log_type, text):
@@ -244,9 +245,30 @@ def test_auto_pipeline(model_dir, dataset_filename, logs_mode):
     print()
 
 
-def file_handling(model_dir, filename):
+def file_handling(model_dir, filename, mode):
     file_data = txt_parsing(filename)
+    temp_data = file_data.copy()
+
     model = load_model(model_dir)
 
     for entity in file_data:
-        predict_sample(model, entity)
+        found_data = get_entities(model, entity)
+        temp = entity
+        if found_data:
+            for obj in found_data:
+                if mode == "replace":
+                    generated = generate_random(obj.label_)
+                    if generated:
+                        temp = temp.replace(obj.text, generated)
+                elif mode == "hide":
+                    hidden = list(temp)
+                    hidden_length = len(hidden)
+                    if hidden_length >= 4:
+                        hidden = ("***"
+                                  + temp[int(hidden_length / 2):]
+                                  + "***")
+                    temp = temp.replace(obj.text, hidden)
+        temp_data[file_data.index(entity)] = temp
+
+    with open("result.txt", "w", encoding="UTF-8") as f:
+        f.writelines("\n".join(temp_data))

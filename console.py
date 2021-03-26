@@ -54,7 +54,12 @@ def main():
 				log("error", "Error. Set --data, --value and --output parameters.")
 		elif action == "predict_file":
 			if args.data and args.model:
-				file_handling(args.model, args.data)
+				file_handling(args.model, args.data, "replace")
+			else:
+				log("error", "Error. Set --model and --data parameters.")
+		elif action == "mask_file":
+			if args.data and args.model:
+				file_handling(args.model, args.data, "hide")
 			else:
 				log("error", "Error. Set --model and --data parameters.")
 	else:
