@@ -2,8 +2,7 @@ from faker import Faker
 
 
 def get_name():
-    faker = Faker()
-    return faker.name()
+    return Faker().name()
 
 
 def get_address():
