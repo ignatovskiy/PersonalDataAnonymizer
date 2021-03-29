@@ -1,3 +1,6 @@
+import os
+
+
 start_symbol = """
 ::::    ::: :::::::::: :::::::::       :::     :::  :::::::       ::::::::  
 :+:+:   :+: :+:        :+:    :+:      :+:     :+: :+:   :+:     :+:    :+: 
@@ -89,3 +92,29 @@ test_rtc = """
 [9] - Return to Main Menu
 [0] - Exit
 """
+
+
+def show_test():
+    os.system('clear')
+    print(test_symbol)
+
+
+def show_train():
+    os.system('clear')
+    print(train_symbol)
+
+
+def show_main_menu():
+    os.system('clear')
+    print(start_symbol)
+    print(main_menu)
+
+
+def show_train_menu():
+    show_train()
+    print(train_menu)
+
+
+def show_test_menu():
+    show_test()
+    print(test_menu)
