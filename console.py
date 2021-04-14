@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 import dataset_converter
 import dataset_creator
@@ -54,16 +55,18 @@ def main():
 				log("error", "Error. Set --data, --value and --output parameters.")
 		elif action == "predict_file":
 			if args.data and args.model:
-				file_handling(args.model, args.data, "replace")
+				file_handling(args.model, args.data, args.output, "replace")
 			else:
-				log("error", "Error. Set --model and --data parameters.")
+				log("error", "Error. Set --model, --data and --output parameters.")
 		elif action == "mask_file":
 			if args.data and args.model:
-				file_handling(args.model, args.data, "hide")
+				file_handling(args.model, args.data, args.output, "hide")
 			else:
-				log("error", "Error. Set --model and --data parameters.")
+				log("error" "Error. Set --model, --data and --output parameters.")
+		elif action == "interact":
+			menu_pipeline()
 	else:
-		menu_pipeline()
+		io_handling()
 
 
 if __name__ == "__main__":

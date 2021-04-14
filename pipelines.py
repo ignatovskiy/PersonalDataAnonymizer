@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 import random
+import sys
 import time
 
 import spacy
@@ -245,7 +246,43 @@ def test_auto_pipeline(model_dir, dataset_filename, logs_mode):
     print()
 
 
-def file_handling(model_dir, filename, mode):
+def hide_data(data, obj):
+    hidden = list(data)
+    hidden_length = int(len(hidden) / 2)
+    hidden = (data[:hidden_length]
+              + "*" * hidden_length)
+    temp = data.replace(obj.text, hidden)
+    return temp
+
+
+def replace_data(data, obj):
+    generated = generate_random(obj.label_)
+    if generated:
+        temp = data.replace(obj.text, generated)
+    else:
+        temp = data
+    return temp
+
+
+def io_handling(model_dir="models/model_100000n"):
+    model = load_model(model_dir)
+
+    input_stream = sys.stdin.read().split("\n")
+    temp_stream = input_stream.copy()
+
+    for item in input_stream:
+        found_data = get_entities(model, item)
+        temp = item
+        if found_data:
+            for obj in found_data:
+                temp = replace_data(temp, obj)
+
+        temp_stream[input_stream.index(item)] = temp
+
+    sys.stdout.write("\n".join(temp_stream))
+
+
+def file_handling(model_dir, filename, output, mode):
     file_data = txt_parsing(filename)
     temp_data = file_data.copy()
 
@@ -257,18 +294,10 @@ def file_handling(model_dir, filename, mode):
         if found_data:
             for obj in found_data:
                 if mode == "replace":
-                    generated = generate_random(obj.label_)
-                    if generated:
-                        temp = temp.replace(obj.text, generated)
+                    temp = replace_data(temp, obj)
                 elif mode == "hide":
-                    hidden = list(temp)
-                    hidden_length = len(hidden)
-                    if hidden_length >= 4:
-                        hidden = ("***"
-                                  + temp[int(hidden_length / 2):]
-                                  + "***")
-                    temp = temp.replace(obj.text, hidden)
+                    temp = hide_data(temp, obj)
         temp_data[file_data.index(entity)] = temp
 
-    with open("result.txt", "w", encoding="UTF-8") as f:
+    with open(output, "w", encoding="UTF-8") as f:
         f.writelines("\n".join(temp_data))

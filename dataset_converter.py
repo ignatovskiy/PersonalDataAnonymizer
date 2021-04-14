@@ -30,7 +30,7 @@ def pre_adding(block, entity):
 
 def post_adding(block, entity):
     post_dict = load_raw_data("contexts.json")
-    additional = rand(post_dict["pre"][entity])
+    additional = rand(post_dict["post"][entity])
 
     converted_text = str(block[entity]) + additional
 
@@ -58,9 +58,33 @@ def handling_data(pre_dataset):
     return converted_dataset
 
 
+def multi_handling_data(pre_dataset):
+    converted_dataset = list()
+
+    for block in pre_dataset:
+        temp_block_items = list(block.items())
+        shuffle(temp_block_items)
+        temp_block = dict(temp_block_items)
+
+        block_string = " ".join(list(temp_block.values()))
+        entities_list = list()
+        offset = 0
+
+        for entity in temp_block:
+            entities_list.append([offset, offset + len(str(temp_block[entity])), str(entity)])
+            offset += len(str(temp_block[entity])) + 1
+
+        converted_entity = [block_string, {"entities": entities_list}]
+        converted_dataset.append(converted_entity)
+    return converted_dataset
+
+
 def main(dataset_filename):
     pre_dataset = load_raw_data(dataset_filename)
-    converted_dataset = handling_data(pre_dataset)
+    dataset_length = len(pre_dataset)
+    converted_dataset = handling_data(pre_dataset[:dataset_length // 2])
+    multi_converted_dataset = multi_handling_data(pre_dataset[dataset_length // 2:])
+    converted_dataset.extend(multi_converted_dataset)
     shuffle(converted_dataset)
     save_dataset(converted_dataset)
 

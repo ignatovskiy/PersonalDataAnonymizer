@@ -2,7 +2,7 @@
   "first": ["My ", "Me ", "Our ", "We ", "His ", "Their ", "Her ", "This ", "Your "],
   "pre":
   {
-    "NAME": ["name is ", "is "],
+    "NAME": ["name is ", "is ", "with ", "see you "],
     "ADDRESS": ["live in ", "address is ", "placed in ", "address: ", "location: ", "place: "],
     "ID": ["id is ", "passport num: ", "passport: ", "ID card number: ", "passport number: "],
     "PHONE": ["call me at ", "phone: ", "contact us ", "phone us ", "back call ", "call "],
