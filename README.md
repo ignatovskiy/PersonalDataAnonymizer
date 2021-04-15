@@ -62,7 +62,8 @@ python3 pdanonymizer -a interact
 Replacing personal data in SQL database with fake one. Compare output of this commands:
 ```bash
 python3 examples/sql_example.py
-
+```
+```
 Ivan Ivanov 0-345-43-43 25.03.1874
 Rodger Wellington +7-950-434-43-43 05/03/2000
 Stan Smith +1-900-456-43-34 01.02.1990
@@ -70,7 +71,8 @@ Stan Smith +1-900-456-43-34 01.02.1990
 
 ```bash
 python3 examples/sql_example.py | python3 pdanonymizer
-
+```
+```
 Helen Church 001-625-632-4152 21.10.1983
 Perry Lucas 767-863-7211 13.02.2013
 Katherine Sheppard 001-822-636-2875x5676 18.12.2016
