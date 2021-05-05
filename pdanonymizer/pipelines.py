@@ -264,6 +264,20 @@ def replace_data(data, obj):
     return temp
 
 
+def web_handling(input_string, model_dir='models/model_10000'):
+    model = load_model(model_dir)
+    temp_string = input_string.copy()
+
+    for item in input_string:
+        found_data = get_entities(model, item)
+        temp = item
+        if found_data:
+            for obj in found_data:
+                temp = replace_data(temp, obj)
+        temp_string[input_string.index(item)] = temp
+    return "\n".join(temp_string)
+
+
 def io_handling(model_dir="models/model_100000"):
     model = load_model(model_dir)
 
