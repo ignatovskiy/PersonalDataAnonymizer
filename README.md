@@ -184,8 +184,8 @@ w/ pdanonymizer (via web-app):
 ```
 
 ### Example of image data masking:
-![](https://i.postimg.cc/PPPFMLR9/Screenshot-2021-05-06-at-03-23-53.png)
-![](https://i.postimg.cc/fkHrX7BY/out-image.png)
+![](https://i.imgur.com/BQmq6wu.png)
+![](https://i.imgur.com/spLWOvi.png)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
