@@ -79,7 +79,7 @@ def multi_handling_data(pre_dataset):
     return converted_dataset
 
 
-def main(dataset_filename):
+def convert_dataset(dataset_filename):
     pre_dataset = load_raw_data(dataset_filename)
     dataset_length = len(pre_dataset)
     converted_dataset = handling_data(pre_dataset[:dataset_length // 2])
@@ -89,5 +89,5 @@ def main(dataset_filename):
     save_dataset(converted_dataset)
 
 
-if __name__ == "__main__":
-    main()
+def main(dataset_filename):
+    convert_dataset(dataset_filename)

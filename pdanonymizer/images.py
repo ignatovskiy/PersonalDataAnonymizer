@@ -1,6 +1,7 @@
 import cv2
 import pytesseract
 from pytesseract import Output
+import json
 
 from pdanonymizer import pipelines
 
@@ -9,11 +10,14 @@ def read_image(image_name):
     return cv2.imread(image_name)
 
 
-def write_image(image_name, img):
-    img_name = "out_image."
-    img_ext = image_name.split(".")[-1]
-    cv2.imwrite(img_name + img_ext, img)
-    return img_name + img_ext
+def load_raw_data(filename):
+    with open(filename, 'r', encoding='UTF-8') as f:
+        return json.load(f)
+
+
+def write_image(image_name, img, output_name):
+    cv2.imwrite(output_name, img)
+    return output_name
 
 
 def image_to_gray(img):
@@ -38,24 +42,32 @@ def draw_rects(img, data_dict, i):
 
 def handle_entities(n_boxes, data_dict, img, model_name="models/model_10000"):
     model = pipelines.load_model(model_name)
+    contexts = [el.lower() for el in load_raw_data('pdanonymizer/contexts.json')['first']]
 
     for i in range(n_boxes):
-        if int(data_dict['conf'][i]) > 50:
+        if int(data_dict['conf'][i]) > 80:
             sample_text = data_dict['text'][i]
             entity = pipelines.get_entities(model, sample_text)
             if entity:
-                img = draw_rects(img, data_dict, i)
+                check_contexts = False
+                for ent in entity:
+                    print(ent.text.lower())
+                    if ent.text.lower() in contexts:
+                        check_contexts = True
+                        break
+                if not check_contexts:
+                    img = draw_rects(img, data_dict, i)
 
 
-def hide_data_image(image_name="img.png"):
-    img = read_image(image_name)
+def hide_data_image(input_name="img.png", output_name="out_image.png"):
+    img = read_image(input_name)
     gray = image_to_gray(img)
 
     data_dict = get_image_data(gray)
     n_boxes = get_n_boxes(data_dict)
 
     handle_entities(n_boxes, data_dict, img)
-    out_file = write_image(image_name, img)
+    out_file = write_image(input_name, img, output_name)
     return out_file
 
 

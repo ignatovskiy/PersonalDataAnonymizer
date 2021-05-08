@@ -23,7 +23,7 @@ def create(records_amount, output, dataset_filename="dataset.json"):
     print("Done!")
 
 
-def main():
+def create_dataset():
     os.system("clear")
     print("Enter filename of base dataset:")
     dataset_name = input()
@@ -34,5 +34,5 @@ def main():
     create(records_amount, output, dataset_name)
 
 
-if __name__ == "__main__":
-    main()
+def main():
+    create_dataset()

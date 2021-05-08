@@ -10,6 +10,7 @@ from spacy.util import minibatch, compounding
 
 from pdanonymizer.parsers import *
 from pdanonymizer.generators import generate_random
+from pdanonymizer.images import *
 
 
 def log(log_type, text):
@@ -138,13 +139,14 @@ def train_model(model, unaffected_pipes, train_data, state):
 
     if state == "new":
         optimizer = model.initialize(lambda: train_entities)
-    elif state == "continue":
+    elif state in ("continue", "post"):
         optimizer = model.resume_training()
     else:
         optimizer = None
 
     for i in range(iterations):
-        log("info", f"Training... {i + 1}/{iterations}")
+        if state != "post":
+            log("info", f"Training... {i + 1}/{iterations}")
 
         random.shuffle(train_entities)
         batches = get_batches(train_entities)
@@ -216,6 +218,17 @@ def train_pipeline(dataset_filename, model_folder):
     log("info", "Model saved!")
 
 
+def post_train(model_dir, entity):
+    model = load_model(model_dir)
+
+    ner = get_ner(model)
+    ner = add_training_labels(ner, entity)
+
+    model_pips = disable_pips(model)
+    trained_model = train_model(model, model_pips, entity, "post")
+    save_model(trained_model, model_dir)
+
+
 def continue_train_pipeline(model_dir, dataset_filename, model_folder):
     model = load_model(model_dir)
 
@@ -234,6 +247,12 @@ def continue_train_pipeline(model_dir, dataset_filename, model_folder):
     log("info", f"Saving model as {model_folder} directory")
     save_model(trained_model, model_folder)
     log("info", "Model saved!")
+
+
+def image_handling_pipeline(filename, output_filename):
+    log("info", f"Loading {filename} image...")
+    hide_data_image(filename, output_filename)
+    log("info", f"Image was saved as {output_filename}!")
 
 
 def test_auto_pipeline(model_dir, dataset_filename, logs_mode):
@@ -255,30 +274,52 @@ def hide_data(data, obj):
     return temp
 
 
-def replace_data(data, obj):
-    generated = generate_random(obj.label_)
-    if generated:
-        temp = data.replace(obj.text, generated)
+def check_data(label, text):
+    if label == "NAME" and len(text) > 3 and text.lower() != text:
+        return True
+    elif label == "PHONE" and len(text) >= 6:
+        return True
+    elif label == "BIRTHDAY" and 10 >= len(text) >= 8:
+        return True
+    elif label == "EMAIL" and "@" in text and "." in text:
+        return True
+    elif label == "ID" and len(text) >= 4:
+        return True
+    elif label == "ADDRESS" and len(text) >= 20:
+        return True
     else:
-        temp = data
-    return temp
+        return False
+
+
+def replace_data(data, obj, model_dir):
+    if check_data(obj.label_, obj.text):
+        generated = generate_random(obj.label_)
+        if generated:
+            temp = data.replace(obj.text, generated)
+        else:
+            temp = data
+        return temp
+    else:
+        train_data = [[obj.text, {'entities': []}]]
+        post_train(model_dir, train_data)
+        return data
 
 
 def web_handling(input_string, model_dir='models/model_10000'):
     model = load_model(model_dir)
     temp_string = input_string.copy()
 
-    for item in input_string:
-        found_data = get_entities(model, item)
-        temp = item
+    for inp_str in input_string:
+        found_data = get_entities(model, inp_str)
+        temp = inp_str
         if found_data:
             for obj in found_data:
-                temp = replace_data(temp, obj)
-        temp_string[input_string.index(item)] = temp
+                temp = replace_data(temp, obj, model_dir)
+        temp_string[input_string.index(inp_str)] = temp
     return "\n".join(temp_string)
 
 
-def io_handling(model_dir="models/model_100000"):
+def io_handling(model_dir="models/model_10000"):
     model = load_model(model_dir)
 
     input_stream = sys.stdin.read().split("\n")
@@ -289,15 +330,22 @@ def io_handling(model_dir="models/model_100000"):
         temp = item
         if found_data:
             for obj in found_data:
-                temp = replace_data(temp, obj)
-
+                temp = replace_data(temp, obj, model_dir)
         temp_stream[input_stream.index(item)] = temp
 
     sys.stdout.write("\n".join(temp_stream))
 
 
 def file_handling(model_dir, filename, output, mode):
-    file_data = txt_parsing(filename)
+    file_extension = filename.split(".")[-1].lower()
+
+    if file_extension == "csv":
+        file_data = csv_parsing(filename)
+    else:
+        file_data = txt_parsing(filename)
+
+    columns_titles = file_data[0]
+
     temp_data = file_data.copy()
 
     model = load_model(model_dir)
@@ -308,10 +356,15 @@ def file_handling(model_dir, filename, output, mode):
         if found_data:
             for obj in found_data:
                 if mode == "replace":
-                    temp = replace_data(temp, obj)
+                    temp = replace_data(temp, obj, model_dir)
                 elif mode == "hide":
                     temp = hide_data(temp, obj)
         temp_data[file_data.index(entity)] = temp
 
     with open(output, "w", encoding="UTF-8") as f:
-        f.writelines("\n".join(temp_data))
+        if file_extension == "csv":
+            temp_data[0] = columns_titles
+        output_data = "\n".join(temp_data)
+        if file_extension == "csv":
+            output_data = output_data.replace("_", ",")
+        f.writelines(output_data)
