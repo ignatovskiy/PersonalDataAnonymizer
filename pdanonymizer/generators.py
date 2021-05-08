@@ -1,8 +1,11 @@
 from faker import Faker
+import random
 
 
 def get_name():
-    return Faker().name()
+    name = Faker().name().split()[1:]
+    rand_index = random.randint(0, len(name) - 1)
+    return name[rand_index]
 
 
 def get_address():

@@ -1,21 +1,24 @@
 {
-  "first": ["My ", "Me ", "Our ", "We ", "His ", "Their ", "Her ", "This ", "Your "],
+  "first": ["My ", "Me ", "Our ", "We ", "His ", "Their ", "Her ", "This ", "Your ", "System: ", "Log: ",
+    "Error: ", "Warning: ", "Info: ", "GET ", "POST ", "PATCH ", "DELETE ", "Status: ", "LICENSE", "DOCUMENT", "DRIVER",
+    "ID", "PASSPORT", "IDENTIFICATION CARD", "DRIVER LICENSE", "CARD", "ID CARD", "Issued:", "Expires:", "DATE:",
+    "ID No:", "NAME", "FIRST NAME", "LAST NAME", "BIRTHDAY:", "COMPANY:", "SEX:", "EYES:", "HT:", "DOB:"],
   "pre":
   {
-    "NAME": ["name is ", "is ", "with ", "see you "],
-    "ADDRESS": ["live in ", "address is ", "placed in ", "address: ", "location: ", "place: "],
-    "ID": ["id is ", "passport num: ", "passport: ", "ID card number: ", "passport number: "],
-    "PHONE": ["call me at ", "phone: ", "contact us ", "phone us ", "back call ", "call "],
-    "BIRTHDAY": ["birthday on ", "born in ", "dead in "],
-    "EMAIL": ["email ", "email: ", "email is ", "text me ", "contact us: ", "send me message "]
+    "NAME": ["", "name is ", "is ", "with ", "see you "],
+    "ADDRESS": ["", "live in ", "address is ", "placed in ", "address: ", "location: ", "place: "],
+    "ID": ["", "ID no: ", "ID", "id is ", "passport num: ", "passport: ", "ID card number: ", "passport number: "],
+    "PHONE": ["", "call me at ", "phone: ", "contact us ", "phone us ", "back call ", "call "],
+    "BIRTHDAY": ["", "birthday ", "Issued: ", "Expires:  ", "date " ,"birthday on ", "born in ", "dead in "],
+    "EMAIL": ["", "email ", "email: ", "email is ", "text me ", "contact us: ", "send me message "]
   },
   "post":
   {
-    "NAME": [" is my name", " is me", " has", " waits", " thinks", " shows"],
-    "ADDRESS": [" is my address", " is our location"],
-    "ID": [" is my ID", " is my passport num."],
-    "PHONE": [" Call us.", " Phone us.", " Contact us."],
-    "BIRTHDAY": [" is my birthday", " is date", " is born date"],
-    "EMAIL": [" is my email", " text me", " email us", " send message"]
+    "NAME": [" is my name", " is me", " has", " waits", " thinks", " shows", "."],
+    "ADDRESS": [" is my address", " is our location", "."],
+    "ID": [" is my ID", " is my passport num.", "."],
+    "PHONE": [" Call us.", " Phone us.", " Contact us.", "."],
+    "BIRTHDAY": [" is my birthday", " is date", " is born date", "."],
+    "EMAIL": [" is my email", " text me", " email us", " send message", "."]
   }
 }

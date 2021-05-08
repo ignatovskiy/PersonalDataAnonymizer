@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='pdanonymizer',
-    version='0.4.0',
+    version='0.5.0',
     description='Personal Data Anonymizer',
     url='https://github.com/ignatovskiy/PersonalDataAnonymizer',
     author='Nikita Ignatovsky',

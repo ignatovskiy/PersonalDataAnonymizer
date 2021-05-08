@@ -16,6 +16,7 @@ def main():
                                                  "[dataset file]\n"
                                                  "-a predict_file -m [model dir] -d [file] -o [file]\n"
                                                  "-a mask_file -m [model dir] -d [file] -o [file]\n"
+                                                 "-a mask_image -d [input image filename] -o [output image filename]\n"
                                                  "-a interact\n")
 
     parser.add_argument('-a', '--action', type=str, help=argparse.SUPPRESS)
@@ -62,15 +63,20 @@ def main():
             else:
                 log("error", "Error. Set --data, --value and --output parameters.")
         elif action == "predict_file":
-            if args.data and args.model:
+            if args.data and args.model and args.output:
                 file_handling(args.model, args.data, args.output, "replace")
             else:
                 log("error", "Error. Set --model, --data and --output parameters.")
         elif action == "mask_file":
-            if args.data and args.model:
+            if args.data and args.model and args.output:
                 file_handling(args.model, args.data, args.output, "hide")
             else:
-                log("error" "Error. Set --model, --data and --output parameters.")
+                log("error", "Error. Set --model, --data and --output parameters.")
+        elif action == "mask_image":
+            if args.data and args.output:
+                image_handling_pipeline(args.data, args.output)
+            else:
+                log("error", "Error. Set --data and --output parameters.")
         elif action == "interact":
             menu_pipeline()
     else:

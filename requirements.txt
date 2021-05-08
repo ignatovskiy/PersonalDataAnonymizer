@@ -1,2 +1,7 @@
 faker==8.1.0
 spacy==3.0.5
+setuptools~=49.6.0
+flask~=1.1.2
+pdanonymizer~=0.5.0
+opencv-python~=4.5.1.48
+pytesseract~=0.3.7

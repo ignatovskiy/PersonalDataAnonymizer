@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<title>Personal Data Anonymizer</title>
+	<link href="https://static.deepl.com/css/deepl.$52562b.css" rel="stylesheet" type="text/css">
+	<link href="https://static.deepl.com/css/deepl-ui.$530a15.css" rel="stylesheet" type="text/css">
+	<link href="https://static.deepl.com/css/cookieBanner.$a60946.css" rel="stylesheet" type="text/css">
+	<link href="https://static.deepl.com/css/lmt.$12b49a.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div class="lmt lmt--empty_source dl_top_element--wide lmt--web lmt--has_formality lmt--short_text" id="dl_translator">
+		<div class="lmt__docTrans-tab-container">
+			<div class="switch_module_switch__559c384a switch_module_size_medium__559c384a" data-testid="switch">
+				<button class="switchOption_module_switchOption__c8a45b24 switchOption_module_variant_light__c8a45b24 switchOption_module_active__c8a45b24" data-testid="switchOption" type="button"><span class="switchOption_module_labelContainer__c8a45b24">Text</span>
+				</button>
+				<button onclick="document.location.href='/docs';" class="switchOption_module_switchOption__c8a45b24 switchOption_module_variant_light__c8a45b24" data-testid="switchOption" type="button"><span class="switchOption_module_labelContainer__c8a45b24"><span class="switchOption_module_switchOptionLabel__c8a45b24">Documents</span></span>
+				</button>
+			</div>
+		</div>
+		<div class="lmt__text">
+			<form method="POST">
+			<div class="lmt__sides_container">
+				<div class="lmt__textarea_container" style="padding:16px 16px 16px 16px">
+					<div class="lmt__inner_textarea_container">
+						<textarea name="input_text" id="input_text" style="overflow-y:auto;" class="lmt__textarea lmt__source_textarea lmt__textarea_base_style" spellcheck=false data-gramm="false">{{ inputed_text }}</textarea>
+					</div>
+				</div>
+				<div class="lmt__textarea_separator lmt__textarea_separator--left lmt__textarea_separator--has-top-toolbar" style="flex: 0 0 16px;"></div>
+				<div class="lmt__textarea_container" style="padding:16px 16px 16px 16px">
+					<div class="lmt__inner_textarea_container">
+						<textarea style="overflow-y:auto;" class="lmt__textarea lmt__source_textarea lmt__textarea_base_style" data-gramm="false" spellcheck=false readonly>{{ transformed_text }}</textarea>
+					</div>
+				</div>
+			</div>
+				<div class="lmt__docTrans-tab-container">
+					<div class="switch_module_switch__559c384a switch_module_size_medium__559c384a" data-testid="switch">
+						<input type="submit" style="padding:12px 16px 12px 16px" value="Anonymize" class="switchOption_module_switchOption__c8a45b24 switchOption_module_variant_light__c8a45b24" data-testid="switchOption">
+					</div>
+				</div>
+	</form>
+		</div>
+	</div>
+</body>
+</html>
