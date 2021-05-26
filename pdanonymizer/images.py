@@ -27,7 +27,7 @@ def image_to_gray(img):
 
 
 def get_image_data(image):
-    return pytesseract.image_to_data(image, output_type=Output.DICT)
+    return pytesseract.image_to_data(image, lang='eng', output_type=Output.DICT)
 
 
 def get_n_boxes(data_dict):

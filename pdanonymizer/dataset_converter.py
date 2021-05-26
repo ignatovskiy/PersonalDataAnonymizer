@@ -18,7 +18,7 @@ def save_dataset(converted_data):
 
 def pre_adding(block, entity):
     pre_dict = load_raw_data("contexts.json")
-    additional = rand(pre_dict["first"]) + rand(pre_dict["pre"][entity])
+    additional = rand(pre_dict["first"]) + " " + rand(pre_dict["pre"][entity]) + " "
 
     a_len = len(additional)
     converted_text = additional + str(block[entity])
@@ -30,7 +30,7 @@ def pre_adding(block, entity):
 
 def post_adding(block, entity):
     post_dict = load_raw_data("contexts.json")
-    additional = rand(post_dict["post"][entity])
+    additional = " " + rand(post_dict["post"][entity])
 
     converted_text = str(block[entity]) + additional
 
