@@ -1,15 +1,131 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-	<title>Personal Data Anonymizer</title>
-	<link href="https://static.deepl.com/css/deepl.$52562b.css" rel="stylesheet" type="text/css">
-	<link href="https://static.deepl.com/css/deepl-ui.$530a15.css" rel="stylesheet" type="text/css">
-	<link href="https://static.deepl.com/css/cookieBanner.$a60946.css" rel="stylesheet" type="text/css">
-	<link href="https://static.deepl.com/css/lmt.$12b49a.css" rel="stylesheet" type="text/css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Personal Data Anonymizer</title>
+	<link rel="stylesheet" type="text/css" href="css_style1.css">
+	<link rel="stylesheet" type="text/css" href="css_style2.css">
+	<link rel="stylesheet" type="text/css" href="css_style3.css">
 </head>
 <body>
 	<div class="lmt lmt--empty_source dl_top_element--wide lmt--web lmt--has_formality lmt--short_text" id="dl_translator">
+		<style>
+			body {
+			  background-color: #fff;
+			}
+
+			body.dark {
+			  background-color: #0a0a0a;
+			}
+
+			#container {
+			  position: fixed;
+			  top: 50vh;
+			  left: 50vw;
+			  background-color: #ffffff;
+			  transform: translate(-50%, -50%);
+			  padding: 30px;
+			  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+			}
+
+			#color_switcher {
+			  width: 100%;
+			}
+
+			.gh-ribbon {
+			  font-family: Helvetica, Arial, sans-serif;
+			  width: 600px;
+			  text-align: center;
+			  font-weight: bold;
+			  font-size: 0.8em;
+			  padding: 10px;
+			  text-decoration: none;
+			  position: fixed;
+			  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+			  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+			  z-index: 1000;
+			}
+
+			.gh-ribbon:after {
+			  content: "";
+			  position: relative;
+			  display: block;
+			  top: 8px;
+			  left: 0;
+			  width: 600px;
+			  border: 1px dashed rgba(255, 255, 255, 0.4);
+			}
+
+			.gh-ribbon:before {
+			  content: "";
+			  position: relative;
+			  display: block;
+			  bottom: 8px;
+			  left: 0;
+			  width: 600px;
+			  border: 1px dashed rgba(255, 255, 255, 0.4);
+			}
+
+			.gh-ribbon.white:after {
+			  content: "";
+			  position: relative;
+			  display: block;
+			  top: 8px;
+			  left: 0;
+			  width: 600px;
+			  border: 1px dashed rgba(0, 0, 0, 0.4);
+			}
+
+			.gh-ribbon.white:before {
+			  content: "";
+			  position: relative;
+			  display: block;
+			  bottom: 8px;
+			  left: 0;
+			  width: 600px;
+			  border: 1px dashed rgba(0, 0, 0, 0.4);
+			}
+
+			.gh-ribbon.right {
+			  top: 5px;
+			  right: -265px;
+			  /* top - right = width / 2 */
+			  transform: rotate(45deg) translateY(100%);
+			}
+
+			.gh-ribbon.red {
+			  background-color: #aa0000;
+			  color: #ffffff;
+			}
+
+			.gh-ribbon.green {
+			  background-color: #007200;
+			  color: #ffffff;
+			}
+
+			.gh-ribbon.darkblue {
+			  background-color: #121621;
+			  color: #ffffff;
+			}
+
+			.gh-ribbon.gray {
+			  background-color: #6d6d6d;
+			  color: #ffffff;
+			}
+
+			.gh-ribbon.white {
+			  background-color: #ffffff;
+			  color: #000000;
+			}
+		</style>
+		<a class="gh-ribbon darkblue right" href="https://github.com/ignatovskiy/PersonalDataAnonymizer" target="_blank">GitHub Link</a>
+
+		<div style="text-align: center;">
+			<span class=switchOption_module_labelContainer__c8a45b24">
+				Pesronal Data Anonymizer
+			</span>
+		</div>
+
 		<div class="lmt__docTrans-tab-container">
 			<div class="switch_module_switch__559c384a switch_module_size_medium__559c384a" data-testid="switch">
 				<button class="switchOption_module_switchOption__c8a45b24 switchOption_module_variant_light__c8a45b24 switchOption_module_active__c8a45b24" data-testid="switchOption" type="button"><span class="switchOption_module_labelContainer__c8a45b24">Text</span>
