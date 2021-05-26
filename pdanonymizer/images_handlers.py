@@ -3,16 +3,12 @@ import pytesseract
 from pytesseract import Output
 import json
 
-from pdanonymizer import pipelines
+from pdanonymizer import model_utils
+from pdanonymizer.dataset_converter import load_raw_data
 
 
 def read_image(image_name):
     return cv2.imread(image_name)
-
-
-def load_raw_data(filename):
-    with open(filename, 'r', encoding='UTF-8') as f:
-        return json.load(f)
 
 
 def write_image(image_name, img, output_name):
@@ -41,13 +37,13 @@ def draw_rects(img, data_dict, i):
 
 
 def handle_entities(n_boxes, data_dict, img, model_name="models/model_10000"):
-    model = pipelines.load_model(model_name)
+    model = model_utils.load_model(model_name)
     contexts = [el.lower() for el in load_raw_data('pdanonymizer/contexts.json')['first']]
 
     for i in range(n_boxes):
         if int(data_dict['conf'][i]) > 80:
             sample_text = data_dict['text'][i]
-            entity = pipelines.get_entities(model, sample_text)
+            entity = model_utils.get_entities(model, sample_text)
             if entity:
                 check_contexts = False
                 for ent in entity:

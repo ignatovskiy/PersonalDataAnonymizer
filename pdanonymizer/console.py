@@ -1,7 +1,7 @@
 import argparse
 
 from pdanonymizer import dataset_converter, dataset_creator
-from pdanonymizer.utils import *
+from pdanonymizer.menu_handlers import *
 
 
 def main():

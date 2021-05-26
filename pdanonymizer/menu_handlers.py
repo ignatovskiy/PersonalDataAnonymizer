@@ -1,5 +1,5 @@
 from pdanonymizer.symbols import *
-from pdanonymizer.pipelines import *
+from pdanonymizer.model_utils import *
 
 
 def menu_pipeline():

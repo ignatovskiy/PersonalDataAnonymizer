@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, send_file, abort
-from pdanonymizer import pipelines, images
+from pdanonymizer import model_utils, images_handlers
 
 app = Flask(__name__, template_folder='html')
 
@@ -7,7 +7,7 @@ app = Flask(__name__, template_folder='html')
 @app.route('/', methods=['POST'])
 def render_anonymized_page():
     input_text = request.form['input_text']
-    transformed_text = pipelines.web_handling(input_text.split("\n"))
+    transformed_text = model_utils.web_handling(input_text.split("\n"))
     return render_template('text_index.html',
                            inputed_text=input_text,
                            transformed_text=transformed_text)
@@ -32,11 +32,11 @@ def render_uploaded_file():
         if uploaded_ext in ("txt", "csv", "log"):
             uploaded_file.save(uploaded_file.filename)
             new_file = "new_file." + uploaded_ext
-            pipelines.file_handling('models/model_10000e', uploaded_file.filename, new_file, "replace")
+            model_utils.file_handling('models/model_10000e', uploaded_file.filename, new_file, "replace")
             return send_file(new_file)
         elif uploaded_ext in ("png", "jpg", "jpeg", "bmp"):
             uploaded_file.save(uploaded_file.filename)
-            new_file = images.hide_data_image(uploaded_file.filename)
+            new_file = images_handlers.hide_data_image(uploaded_file.filename)
             return send_file(new_file)
     else:
         abort(404)

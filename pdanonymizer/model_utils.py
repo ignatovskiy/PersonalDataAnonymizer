@@ -1,4 +1,3 @@
-import json
 from pathlib import Path
 import random
 import sys
@@ -10,7 +9,7 @@ from spacy.util import minibatch, compounding
 
 from pdanonymizer.parsers import *
 from pdanonymizer.generators import generate_random
-from pdanonymizer.images import *
+from pdanonymizer.images_handlers import *
 
 
 def log(log_type, text):
