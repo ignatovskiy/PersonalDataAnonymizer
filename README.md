@@ -1,4 +1,7 @@
-# Personal Data Anonymizer  [![Build Status](https://github.com/ignatovskiy/PersonalDataAnonymizer/actions/workflows/code-style.yml/badge.svg)](https://github.com/ignatovskiy/PersonalDataAnonymizer/actions)
+# Personal Data Anonymizer  
+[![Build Status](https://github.com/ignatovskiy/PersonalDataAnonymizer/actions/workflows/code-style.yml/badge.svg)](https://github.com/ignatovskiy/PersonalDataAnonymizer/actions)
+![](https://img.shields.io/github/license/ignatovskiy/PersonalDataAnonymizer)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 
 pdanonymizer is a Python library for finding, masking or replacing personal data in files, IO streams, etc.
 
