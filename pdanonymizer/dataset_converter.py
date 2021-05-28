@@ -12,12 +12,12 @@ def load_raw_data(filename):
 
 
 def save_dataset(converted_data):
-    with open("../datasets/dataset.json", 'w', encoding='UTF-8') as f:
+    with open("datasets/dataset.json", 'w', encoding='UTF-8') as f:
         json.dump({"dataset": converted_data}, f)
 
 
 def pre_adding(block, entity):
-    pre_dict = load_raw_data("contexts.json")
+    pre_dict = load_raw_data("pdanonymizer/contexts.json")
     additional = rand(pre_dict["first"]) + " " + rand(pre_dict["pre"][entity]) + " "
 
     a_len = len(additional)
@@ -29,7 +29,7 @@ def pre_adding(block, entity):
 
 
 def post_adding(block, entity):
-    post_dict = load_raw_data("contexts.json")
+    post_dict = load_raw_data("pdanonymizer/contexts.json")
     additional = " " + rand(post_dict["post"][entity])
 
     converted_text = str(block[entity]) + additional

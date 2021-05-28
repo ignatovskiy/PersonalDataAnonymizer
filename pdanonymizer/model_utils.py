@@ -71,43 +71,46 @@ def check_selection(section, given):
 
 
 def count_accuracy(test, model, mode):
-    all_answers = len(test)
+    all_answers = 0
     right_answers = 0
 
-    all_tokens = len(test)
+    all_tokens = 0
     right_tokens = 0
 
-    total_answers = len(test)
+    total_answers = 0
     right_total = 0
 
     start_time = time.time()
 
     for entity in test:
-        test_string, test_params, test_answer, test_tokens = get_entity_params(entity)
+        test_string, test_params = get_entity_params(entity)
         entities = get_entities(model, test_string)
+        params = tuple((param[2], test_string[param[0]:param[1]]) for param in test_params)
+
+        all_answers += len(test_params)
+        all_tokens += len(test_params)
+        total_answers += len(test_params)
+
+        answers = [item[1] for item in params]
+        tokens = [item[0] for item in params]
 
         for ent in entities:
-            if len(entities) != 1:
-                break
-            elif test_answer == ent.text:
-                right_answers += 1
-                if ent.label_ == test_tokens:
-                    right_tokens += 1
-                    right_total += 1
-                    if mode == "all":
-                        log("good", "For {} predicted: {}".format(test_answer, ent.label_))
-                else:
-                    log("bad", "For <{}> expected: <{}>, predicted: <{}>".format(test_answer, test_tokens, ent.label_))
-            else:
-                if ent.label_ == test_tokens:
-                    log("bad", "Right label <{}>, but Expected: <{}>, predicted: <{}>".format(ent.label_, test_answer,
-                                                                                              ent.text))
-                    right_tokens += 1
-                else:
-                    log("bad",
-                        "For <{}> expected: <{}>, predicted: <{}> <{}>".format(test_answer, test_tokens, ent.text,
-                                                                               ent.label_))
+            temp_ent = (ent.label_, ent.text)
 
+            if temp_ent in params:
+                right_answers += 1
+                right_tokens += 1
+                right_total += 1
+                if mode == "all":
+                    log("good", "For {} predicted: {}".format(ent.text, ent.label_))
+            elif ent.text in answers and ent.label_ not in tokens:
+                right_answers += 1
+                log("bad", "Correct answer <{}>, but incorrect token <{}>".format(ent.text, ent.label_))
+            elif ent.text not in answers and ent.label_ in tokens:
+                right_tokens += 1
+                log("bad", "Correct token <{}>, but incorrect answer <{}>".format(ent.label_, ent.text))
+            else:
+                log("bad", "Incorrect answer and token")
     result_time = time.time() - start_time
 
     return right_answers, right_tokens, right_total, all_answers, all_tokens, total_answers, result_time
@@ -191,10 +194,8 @@ def save_model(model, models_dir):
 
 def get_entity_params(entity):
     test_string = entity[0]
-    test_params = entity[1]["entities"][0]
-    test_answer = test_string[test_params[0]:test_params[1]]
-    test_tokens = test_params[2]
-    return test_string, test_params, test_answer, test_tokens
+    test_params = entity[1]["entities"]
+    return test_string, test_params
 
 
 def train_pipeline(dataset_filename, model_folder):

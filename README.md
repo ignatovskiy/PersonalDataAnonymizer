@@ -52,10 +52,26 @@ Masking personal data in file by fake data with the help of pdanonymizer model a
 python3 pdanonymizer -a mask_file -m [model dir] -d [old file] -o [new file]
 ```
 
+Masking personal data in images by black squares with the help of pdanonymizer model and saving edited image:
+```bash
+python3 pdanonymizer -a mask_image -d [input image filename] -o [output image filename]
+```
+
 Pseudo-GUI mode of application:
 ```bash
 python3 pdanonymizer -a interact
 ```
+
+## Accuracy 
+
+### Validated on [this dataset](./datasets/validation.json)
+| <b>Model | Accuracy (label) | <b>Accuracy (entity) | Accuracy (total) | Time |
+| --- | --- | --- | --- | --- |
+| <b>model_10 | 26.57% | 29.17% | <b>14.02% | 1.33s |
+| <b>model_100 | 66.98% | 65.33% | <b>76.80% | 1.33s |
+| <b>model_1000 | 93.73% | 97.40% | <b>93.43% | 1.32s |
+| <b>model_10000 | 97.34% | 98.05% | <b>95.74% | 1.31s |
+| <b>model_100000 | 95.92% | 98.17% | <b>94.79% | 1.31s |
 
 ## Examples
 

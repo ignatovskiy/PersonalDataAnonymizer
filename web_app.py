@@ -47,7 +47,7 @@ def render_uploaded_file():
         if uploaded_ext in ("txt", "csv", "log"):
             uploaded_file.save(uploaded_file.filename)
             new_file = "new_file." + uploaded_ext
-            model_utils.file_handling('models/model_10000e', uploaded_file.filename, new_file, "replace")
+            model_utils.file_handling('models/model_10000', uploaded_file.filename, new_file, "replace")
             return send_file(new_file)
         elif uploaded_ext in ("png", "jpg", "jpeg", "bmp"):
             uploaded_file.save(uploaded_file.filename)
